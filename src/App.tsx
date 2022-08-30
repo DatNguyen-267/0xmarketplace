@@ -43,10 +43,10 @@ function App() {
     if (library) {
       console.log(library)
       const nftSwapSdk = new NftSwapV4(library, library.getSigner(), chainId
-      , {
+      ,{
         appId: '314159',
-        zeroExExchangeProxyContractAddress: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-        // zeroExExchangeProxyContractAddress: address.address_0x, //0x aioz network
+        // zeroExExchangeProxyContractAddress: '0x9171b7e77a9d93a1a9e2534d233018ca2ef9e7ec',
+        zeroExExchangeProxyContractAddress: address.address_0x, //0x aioz network
         orderbookRootUrl: 'https://api.trader.xyz',
       }
       );
@@ -68,7 +68,7 @@ function App() {
       const contract = new ethers.Contract(address.nft_address, nft_abi, library.getSigner());
       console.log(chainId);
       console.log(contract);
-      const products = [1, 2,3 ];
+      const products = [1, 2,13,14,15 ];
       const getData = Promise.all(
         products.map(async (item, index) => {
           const owner: string = await contract.ownerOf(item);

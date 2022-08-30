@@ -1,10 +1,10 @@
 
 //Goerli address
-export const address = {
-  token_address:'0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
-  nft_address:'0x5a5039Eb998bf4fcf2b108c33bb47E1459E7B216',
-  address_0x: '0x8272730116016316b02fb043ac5be135e77737eb'
-}
+// export const address = {
+//   token_address:'0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+//   nft_address:'0x5a5039Eb998bf4fcf2b108c33bb47E1459E7B216',
+//   address_0x: '0x8272730116016316b02fb043ac5be135e77737eb'
+// }
 
 //AIOZ address
 // export const address = {
@@ -13,12 +13,12 @@ export const address = {
 //   address_0x: '0x79ad9b79b86e4ee6d9c004eda802139b3e3beec8'
 // }
 
-//Ropsten address
-// export const address = {
-//   token_address:'0xc778417E063141139Fce010982780140Aa0cD5Ab',
-//   nft_address:'0x6e1a94884609474FC06c7ef1fB1D68Fb89d443f1',
-//   address_0x: '0x993ccb9d6E519a3A0AF81Ae3c7c4753272372012'
-// }
+// Ropsten address
+export const address = {
+  token_address:'0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  nft_address:'0x6e1a94884609474FC06c7ef1fB1D68Fb89d443f1',
+  address_0x: '0x9171b7e77a9d93a1a9e2534d233018ca2ef9e7ec'
+}
 {
 // export const nft_abi = [
 //   {
