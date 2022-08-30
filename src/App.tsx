@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
 import { injected } from './connector';
-import { nft_abi, nft_abi_aioz, nft_address, token_address, address_0x, nft_abi_1155 } from './nft';
+import { nft_abi, nft_abi_aioz, address, nft_abi_1155 } from './nft';
 // import { createAssetNFT, createAssetTokenERC20, nft } from './utils/order';
 
 interface Nft {
@@ -41,12 +41,15 @@ function App() {
   }, []);
   useEffect(() => {
     if (library) {
-      const nftSwapSdk = new NftSwapV4(library, library.getSigner(), chainId, {
+      console.log(library)
+      const nftSwapSdk = new NftSwapV4(library, library.getSigner(), chainId
+      , {
         appId: '314159',
-        // zeroExExchangeProxyContractAddress: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-        zeroExExchangeProxyContractAddress: address_0x, //0x aioz network
+        zeroExExchangeProxyContractAddress: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+        // zeroExExchangeProxyContractAddress: address.address_0x, //0x aioz network
         orderbookRootUrl: 'https://api.trader.xyz',
-      });
+      }
+      );
       setNftSwapSdk(nftSwapSdk);
     }
   }, [library, chainId]);
@@ -61,10 +64,11 @@ function App() {
       //   nft_abi_1155,
       //   library.getSigner()
       // );
-      const contract = new ethers.Contract(nft_address, nft_abi, library.getSigner());
+      console.log(nftSwapSdk);
+      const contract = new ethers.Contract(address.nft_address, nft_abi, library.getSigner());
       console.log(chainId);
       console.log(contract);
-      const products = [1, 2];
+      const products = [1, 2,3 ];
       const getData = Promise.all(
         products.map(async (item, index) => {
           const owner: string = await contract.ownerOf(item);
@@ -90,12 +94,12 @@ function App() {
     if (nftSwapSdk && account) {
       const makerAddress = account;
       const assetNft: any = {
-        tokenAddress: nft_address,
+        tokenAddress: address.nft_address,
         tokenId: _tokenId,
         type: 'ERC721', // 'ERC721' or 'ERC1155'
       };
       const assetToken: UserFacingERC20AssetDataSerializedV4 = {
-        tokenAddress: token_address, // WETH contract address
+        tokenAddress: address.token_address, // WETH contract address
         amount: ethers.utils.parseEther(priceNft).toString(), // 420 Wrapped-ETH (WETH is 18 digits)
         type: 'ERC20',
       };
@@ -128,7 +132,7 @@ function App() {
       try {
         const makerAddress = account;
         const assetToken: any = {
-          tokenAddress: token_address, // WETH contract address
+          tokenAddress: address.token_address, // WETH contract address
           amount: signedOrders[index].erc20TokenAmount,
           type: 'ERC20',
         };
@@ -159,12 +163,12 @@ function App() {
     if (nftSwapSdk && account) {
       const makerAddress = account;
       const assetNft: any = {
-        tokenAddress: nft_address,
+        tokenAddress: address.nft_address,
         tokenId: _tokenId,
         type: 'ERC721', // 'ERC721' or 'ERC1155'
       };
       const assetToken: any = {
-        tokenAddress: token_address, // WETH contract address
+        tokenAddress: address.token_address, // WETH contract address
         amount: ethers.utils.parseEther(priceBid).toString(),
         type: 'ERC20',
       };
@@ -190,7 +194,7 @@ function App() {
       try {
         const makerAddress = account;
         const assetNft: any = {
-          tokenAddress: nft_address,
+          tokenAddress: address.nft_address,
           tokenId: _tokenId,
           type: 'ERC721', // 'ERC721' or 'ERC1155'
         };

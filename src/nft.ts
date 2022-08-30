@@ -1,13 +1,25 @@
-// export const token_address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'; //WETH Ropsten
-// export const token_address = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6'; //WETH Goerli
-export const token_address = '0x34807b0FaBAAF863Ee2f08aCe3bda271adeE97B3'; //WAIOZ
-// export const nft_address = '0x6e1a94884609474FC06c7ef1fB1D68Fb89d443f1'; //Ropsten
-// export const nft_address = '0x5a5039Eb998bf4fcf2b108c33bb47E1459E7B216'; //Goerli
-export const nft_address = '0x74B6649C1d3B99BB275d7A4480067A8bD5Dffa1d'; // AIOZ network
-// export const token_address = "0xaab574a65fb5e0D671Fc74B30C549efeBd02432E"
-// export const token_address = "0x34807b0FaBAAF863Ee2f08aCe3bda271adeE97B3" //MAIOZ
-export const address_0x = '0x79ad9b79b86e4ee6d9c004eda802139b3e3beec8'; // AIoz
-// export const address_0x = '0x993ccb9d6E519a3A0AF81Ae3c7c4753272372012'; //Main
+
+//Goerli address
+export const address = {
+  token_address:'0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+  nft_address:'0x5a5039Eb998bf4fcf2b108c33bb47E1459E7B216',
+  address_0x: '0x8272730116016316b02fb043ac5be135e77737eb'
+}
+
+//AIOZ address
+// export const address = {
+//   token_address:'0x34807b0FaBAAF863Ee2f08aCe3bda271adeE97B3',
+//   nft_address:'0x74B6649C1d3B99BB275d7A4480067A8bD5Dffa1d',
+//   address_0x: '0x79ad9b79b86e4ee6d9c004eda802139b3e3beec8'
+// }
+
+//Ropsten address
+// export const address = {
+//   token_address:'0xc778417E063141139Fce010982780140Aa0cD5Ab',
+//   nft_address:'0x6e1a94884609474FC06c7ef1fB1D68Fb89d443f1',
+//   address_0x: '0x993ccb9d6E519a3A0AF81Ae3c7c4753272372012'
+// }
+{
 // export const nft_abi = [
 //   {
 //     inputs: [],
@@ -439,6 +451,8 @@ export const address_0x = '0x79ad9b79b86e4ee6d9c004eda802139b3e3beec8'; // AIoz
 //     type: 'function',
 //   },
 // ];
+}
+
 // Ropsten
 
 export const nft_abi = [
