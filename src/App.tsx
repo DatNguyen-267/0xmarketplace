@@ -59,29 +59,29 @@ function App() {
   console.log(signedOrders);
   const getItemInMarket = async () => {
     if (library) {
-      // const contract = new ethers.Contract(
-      //   '0xbb8443fd4a2d1484bc678eadeea8e462f6e60bab',
-      //   nft_abi_1155,
-      //   library.getSigner()
-      // );
-      console.log(nftSwapSdk);
-      const contract = new ethers.Contract(address.nft_address, nft_abi, library.getSigner());
-      console.log(chainId);
-      console.log(contract);
-      const products = [1, 2,13,14,15 ];
-      const getData = Promise.all(
-        products.map(async (item, index) => {
-          const owner: string = await contract.ownerOf(item);
-          return {
-            tokenId: item.toString(),
-            owner,
-            isSell: false,
-            isBid: false,
-          };
-        })
-      ).then((res) => {
-        setNfts(res);
-      });
+      //erc-1155
+      const contract = new ethers.Contract(
+        address.nft_address,
+        nft_abi_1155,
+        library.getSigner()
+      );
+      //erc-721
+      // const contract = new ethers.Contract(address.nft_address, nft_abi, library.getSigner());
+      // const products = [0];
+      // const getData = Promise.all(
+      //   products.map(async (item, index) => {
+      //     const owner: string = await contract.ownerOf(item);
+      //     console.log(owner)
+      //     return {
+      //       tokenId: item.toString(),
+      //       owner,
+      //       isSell: false,
+      //       isBid: false,
+      //     };
+      //   })
+      // ).then((res) => {
+      //   setNfts(res);
+      // });
       // const getData = await contract.uri('129639927665024025');
 
       // const json = await fetch(
@@ -93,21 +93,29 @@ function App() {
   const handleSell = async (_tokenId: string) => {
     if (nftSwapSdk && account) {
       const makerAddress = account;
+      //erc-1155
       const assetNft: any = {
         tokenAddress: address.nft_address,
-        tokenId: _tokenId,
-        type: 'ERC721', // 'ERC721' or 'ERC1155'
+        tokenId: 1,
+        amount: 25,
+        type: 'ERC1155', // 'ERC721' or 'ERC1155'
       };
+      //erc-721
+      // const assetNft: any = {
+      //   tokenAddress: address.nft_address,
+      //   tokenId: _tokenId,
+      //   type: 'ERC721', // 'ERC721' or 'ERC1155'
+      // };
       const assetToken: UserFacingERC20AssetDataSerializedV4 = {
         tokenAddress: address.token_address, // WETH contract address
-        amount: ethers.utils.parseEther(priceNft).toString(), // 420 Wrapped-ETH (WETH is 18 digits)
+        amount: ethers.utils.parseEther("0.001").toString(), // 420 Wrapped-ETH (WETH is 18 digits)
         type: 'ERC20',
       };
       try {
         if (makerAddress) {
           // Check require approve
-          const approvalTx = await nftSwapSdk?.approveTokenOrNftByAsset(assetNft, makerAddress);
-          const approvalTxReceipt = await approvalTx?.wait();
+          // const approvalTx = await nftSwapSdk?.approveTokenOrNftByAsset(assetNft, makerAddress);
+          // const approvalTxReceipt = await approvalTx?.wait();
         }
         const order = nftSwapSdk.buildOrder(
           assetNft, // Maker asset to swap
@@ -117,7 +125,7 @@ function App() {
 
         // Sign order so order is now fillable
         const newSignedOrder = await nftSwapSdk.signOrder(order);
-        console.log(newSignedOrder);
+        console.log('newSignedOrder: ', newSignedOrder);
         setSignedOrders([...signedOrders, newSignedOrder]);
         const index = nfts?.findIndex((item) => item.tokenId == _tokenId);
         if (nfts && index) nfts[index].isSell = true;
@@ -136,6 +144,7 @@ function App() {
           amount: signedOrders[index].erc20TokenAmount,
           type: 'ERC20',
         };
+
         if (makerAddress) {
           // Check require approve
           const approvalTx = await nftSwapSdk?.approveTokenOrNftByAsset(assetToken, makerAddress);
@@ -159,17 +168,23 @@ function App() {
     const index = nfts?.findIndex((item) => item.tokenId == _tokenId);
     if (nfts && index) nfts[index].isBid = true;
   };
-  const handleBid = async (_tokenId: string, index: Number) => {
+  const handleBid = async (_tokenId: string, index: Number, amount?: Number) => {
     if (nftSwapSdk && account) {
       const makerAddress = account;
+      // const assetNft: any = {
+      //   tokenAddress: address.nft_address,
+      //   tokenId: _tokenId,
+      //   type: 'ERC721', // 'ERC721' or 'ERC1155'
+      // };
       const assetNft: any = {
         tokenAddress: address.nft_address,
         tokenId: _tokenId,
-        type: 'ERC721', // 'ERC721' or 'ERC1155'
+        type: 'ERC1155', // 'ERC721' or 'ERC1155'
+        amount
       };
       const assetToken: any = {
         tokenAddress: address.token_address, // WETH contract address
-        amount: ethers.utils.parseEther(priceBid).toString(),
+        amount: ethers.utils.parseEther("0.001").toString(),
         type: 'ERC20',
       };
       try {
@@ -189,33 +204,46 @@ function App() {
       }
     }
   };
-  const handleAcceptBid = async (_tokenId: string, index: number) => {
+  const handleAcceptBid = async (_tokenId: string, index: number, amount?: Number) => {
     if (nftSwapSdk && account) {
       try {
         const makerAddress = account;
+        // const assetNft: any = {
+        //   tokenAddress: address.nft_address,
+        //   tokenId: _tokenId,
+        //   type: 'ERC721', // 'ERC721' or 'ERC1155'
+        // };
         const assetNft: any = {
           tokenAddress: address.nft_address,
           tokenId: _tokenId,
-          type: 'ERC721', // 'ERC721' or 'ERC1155'
+          type: 'ERC1155', // 'ERC721' or 'ERC1155'
+          amount
         };
         if (makerAddress) {
           // Check require approve
           const approvalTx = await nftSwapSdk?.approveTokenOrNftByAsset(assetNft, makerAddress);
           const approvalTxReceipt = await approvalTx?.wait();
         }
+        console.log(signedOrdersBid)
         const fillTx = await nftSwapSdk.fillSignedOrder(signedOrdersBid[index]);
         const fillTxReceipt = await nftSwapSdk.awaitTransactionHash(fillTx.hash);
-        const newSignedOrder = signedOrdersBid.splice(index, 1);
-        setsignedOrdersBid(newSignedOrder);
-        await reload();
+        // const newSignedOrder = signedOrdersBid.splice(index, 1);
+        // setsignedOrdersBid(newSignedOrder);
+        // await reload();
       } catch (error) {
         console.log(error);
       }
     }
   };
   // console.log(signedOrdersBid);
+  console.log(signedOrdersBid)
+
   return (
     <div className="App">
+      <button onClick={()=>handleBid('1',1, 25)}>Bid</button>
+      <button onClick={()=>handleListBid('1','0x00323ef5d77cCbD5d83650e05B0e22884E1552A7')}>creeate Bid</button>
+      <button onClick={()=>handleAcceptBid('1',0, 25)}>Acp</button>
+      <button onClick={()=>handleSell('1')}>Sell</button>
       <button onClick={() => activate(injected)}>{active ? 'Connected' : 'Connect'}</button>
       {/* List nft */}
       <div>
